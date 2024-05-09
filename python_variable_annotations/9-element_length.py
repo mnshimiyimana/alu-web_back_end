@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 def shout_hello(name: str, repeat: int = 1) -> str:
     """
     Function that takes a name (str) and an optional repeat (int) value,
