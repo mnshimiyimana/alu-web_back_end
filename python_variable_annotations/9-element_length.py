@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
+"""Write a type-annotated function element_length."""
+
+from typing import List, Tuple, Sequence, Iterable
 
 
-def shout_hello(name: str, repeat: int = 1) -> str:
-    """
-    Function that takes a name (str) and an optional repeat (int) value,
-    and returns a string that shouts "Hello <name>!" the specified number of times.
-    """
-    return ("Hello " + name + "! ") * repeat
+def element_length(lst: Iterable[Sequence]) -> List[Tuple[Sequence, int]]:
+    """Return a list of tuples of the form (element, length)."""
+    return [(i, len(i)) for i in lst]
