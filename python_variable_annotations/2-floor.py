@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
+"""Floor function."""
 import math
-"""Basic annotations - floor"""
 
 
-def floor(n: float) -> float:
-    """takes a float number as argument and returns its floor value."""
+def floor(n: float) -> int:
+    """Return an integer of the floating point number."""
     return math.floor(n)
