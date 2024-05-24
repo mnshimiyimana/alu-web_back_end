@@ -22,7 +22,7 @@ def filter_datum(fields: List[str],
     
 
 class RedactingFormatter(logging.Formatter):
-
+    """Redacting formatter"""
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
