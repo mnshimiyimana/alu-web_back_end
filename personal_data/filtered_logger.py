@@ -14,24 +14,26 @@ def filter_datum(fields: List[str],
                  redaction: str,
                  message: str,
                  separator: str) -> str:
-    """returns the log message obfuscated"""
+    """returns the log message"""
     for field in fields:
         message = re.sub(field + "=.*?" + separator,
                          field + "=" + redaction + separator, message)
     return message
-    
+
 
 class RedactingFormatter(logging.Formatter):
-    """Redacting formatter"""
+    """Redacting formatter class"""
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
     def __init__(self, fields: List[str]):
+        """The init function with a list"""
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
+        """The filter datum for values"""
         msg = filter_datum(self.fields, self.REDACTION,
                            super().format(record), self.SEPARATOR)
         return msg
@@ -56,6 +58,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         database=getenv('PERSONAL_DATA_DB_NAME'))
 
     return db
+
 
 def main():
     """ Redacting Formatter class."""
