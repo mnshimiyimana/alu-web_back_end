@@ -3,7 +3,6 @@
 from pymongo import MongoClient
 
 
-
 METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 
 
