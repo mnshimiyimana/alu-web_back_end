@@ -3,7 +3,7 @@ const cleanSet = (set, string) => {
   let value = '';
   for (const el of set) {
     if (el && el.startsWith(string)) {
-    value 
+      value
       += value.length === 0 ? el.replace(string, '') : el.replace(string, '-');
     }
   }
