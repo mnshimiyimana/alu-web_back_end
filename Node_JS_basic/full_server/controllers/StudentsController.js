@@ -1,7 +1,7 @@
 import readDatabase from '../utils';
 
 export default class StudentsController {
-  static async getAllStudents(req, res) {
+  static async getAllStudents(res) {
     try {
       const path = process.argv[2];
       const data = await readDatabase(path);
@@ -23,7 +23,7 @@ export default class StudentsController {
       });
 
       let returnText = 'This is the list of our students\n';
-      fieldMap.forEach((students, field, map) => {
+      fieldMap.forEach((students, field) => {
         returnText += `Number of students in ${field}: ${
           students.length
         }. List: ${students.join(', ')}\n`;
@@ -51,7 +51,7 @@ export default class StudentsController {
         .filter((line) => line.length > 0)
         .slice(1);
       const majorStudents = lines.filter(
-        (line) => line.split(',')[3] === major
+        (line) => line.split(',')[3] === major,
       );
       const students = majorStudents.map((student) => student.split(',')[0]);
       const responseText = `List: ${students.join(', ')}`;
