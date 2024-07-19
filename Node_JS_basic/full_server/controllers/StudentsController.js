@@ -1,63 +1,43 @@
 import readDatabase from '../utils';
 
-export default class StudentsController {
-  static async getAllStudents(res) {
-    try {
-      const path = process.argv[2];
-      const data = await readDatabase(path);
+class StudentsController {
+  static getAllStudents(request, response, DATABASE) {
+    readDatabase(DATABASE)
+      .then((fields) => {
+        const students = [];
+        let msg;
 
-      const lines = data
-        .toString()
-        .split('\n')
-        .filter((line) => line.length > 0)
-        .slice(1);
-      const fields = lines.map((line) => line.split(','));
+        students.push('This is the list of our students');
 
-      const fieldMap = new Map();
-      fields.forEach((field) => {
-        const [name, , , fieldOfStudy] = field;
-        if (!fieldMap.has(fieldOfStudy)) {
-          fieldMap.set(fieldOfStudy, []);
+        for (const key of Object.keys(fields)) {
+          msg = `Number of students in ${key}: ${
+            fields[key].length
+          }. List: ${fields[key].join(', ')}`;
+
+          students.push(msg);
         }
-        fieldMap.get(fieldOfStudy).push(name);
+        response.send(200, `${students.join('\n')}`);
+      })
+      .catch(() => {
+        response.send(500, 'Cannot load the database');
       });
-
-      let returnText = 'This is the list of our students\n';
-      fieldMap.forEach((students, field) => {
-        returnText += `Number of students in ${field}: ${
-          students.length
-        }. List: ${students.join(', ')}\n`;
-      });
-
-      return res.status(200).end(returnText.trim());
-    } catch (error) {
-      return res.status(500).end('Cannot load the database');
-    }
   }
 
-  static async getAllStudentsByMajor(req, res) {
-    const { major } = req.params;
+  static getAllStudentsByMajor(request, response, DATABASE) {
+    const { major } = request.params;
+
     if (major !== 'CS' && major !== 'SWE') {
-      return res.status(500).end('Major parameter must be CS or SWE');
-    }
+      response.send(500, 'Major parameter must be CS or SWE');
+    } else {
+      readDatabase(DATABASE)
+        .then((fields) => {
+          const students = fields[major];
 
-    try {
-      const path = process.argv[2];
-      const data = await readDatabase(path);
-
-      const lines = data
-        .toString()
-        .split('\n')
-        .filter((line) => line.length > 0)
-        .slice(1);
-      const majorStudents = lines.filter(
-        (line) => line.split(',')[3] === major,
-      );
-      const students = majorStudents.map((student) => student.split(',')[0]);
-      const responseText = `List: ${students.join(', ')}`;
-      return res.status(200).end(responseText);
-    } catch (error) {
-      return res.status(500).end('Cannot load the database');
+          response.send(200, `List: ${students.join(', ')}`);
+        })
+        .catch(() => response.send(500, 'Cannot load the database'));
     }
   }
 }
+
+export default StudentsController;
