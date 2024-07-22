@@ -94,7 +94,7 @@ describe('calculateNumber', () => {
       assert.strictEqual(calculateNumber(DIVIDE, 0, 3.6), 0);
     });
 
-    it('should return 'ERROR' if divisor rounds to 0', () => {
+    it('should return "ERROR" if divisor rounds to 0', () => {
       assert.strictEqual(calculateNumber(DIVIDE, 8.4, 0.4), 'ERROR');
       assert.strictEqual(calculateNumber(DIVIDE, 8.4, -0.4), 'ERROR');
       assert.strictEqual(calculateNumber(DIVIDE, 8.4, 0), 'ERROR');
